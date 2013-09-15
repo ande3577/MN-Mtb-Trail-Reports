@@ -38,7 +38,6 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class AllReportActivity extends ListActivity {
 

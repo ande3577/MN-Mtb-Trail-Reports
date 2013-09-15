@@ -49,14 +49,18 @@ public class ReportDate implements Comparable<ReportDate> {
 		String month;
 		if (scanner.hasNext())
 			month = scanner.next();
-		else
+		else {
+			scanner.close();
 			throw new Exception("Invalid date string: " + dateString);
+		}
 
 		int day;
 		if (scanner.hasNextInt())
 			day = scanner.nextInt();
-		else
+		else {
+			scanner.close();
 			throw new Exception("Invalid date string: " + dateString);
+		}
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.MONTH, lookupMonth(month));
@@ -72,6 +76,7 @@ public class ReportDate implements Comparable<ReportDate> {
 		calendar.set(Calendar.SECOND, 59);
 		calendar.set(Calendar.MILLISECOND, 0);
 		date = calendar.getTime();
+		scanner.close();
 	}
 
 	public ReportDate(long timestamp) {

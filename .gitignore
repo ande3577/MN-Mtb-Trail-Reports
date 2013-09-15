@@ -1,4 +1,6 @@
 *.apk
 /bin/
 *.class
+*.jar
+
 
