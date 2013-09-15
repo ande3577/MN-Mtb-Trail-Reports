@@ -37,6 +37,18 @@
 		</morc>
 	</trail>
 	<trail>
+		<name>Eagan Bike Park</name>
+		<city>Eagan</city>
+		<state>MN</state>
+		<location>44.803465,-93.150298</location>
+		<specificLocation>true</specificLocation>
+		<morc>
+			<trailInfo></trailInfo>
+			<compose>472798</compose>
+			<allReports>44739</allReports>
+		</morc>
+	</trail>
+	<trail>
 		<name>Elm Creek</name>
 		<city>Maple Grove</city>
 		<state>MN</state>
@@ -82,18 +94,6 @@
 			<trailInfo>Lebanon_Hills</trailInfo>
 			<compose>441749</compose>
 			<allReports>9180</allReports>
-		</morc>
-	</trail>
-	<trail>
-		<name>Mammoth</name>
-		<city>Chaska</city>
-		<state>MN</state>
-		<location>44.8311,-93.6099</location>
-		<specificLocation>true</specificLocation>
-		<morc>
-			<trailInfo></trailInfo>
-			<compose>426133</compose>
-			<allReports>16477</allReports>
 		</morc>
 	</trail>
 	<trail>
@@ -184,6 +184,18 @@
 		</morc>
 	</trail>
 	<trail>
+   		<name>Fort Lehillier</name>
+		<city>Mankato</city>
+		<state>MN</state>
+		<location>44.130567,-94.044675</location>
+		<specificLocation>true</specificLocation>
+		<morc>
+			<trailInfo></trailInfo>
+			<compose>44565</compose>
+			<allReports>470341</allReports>
+		</morc>
+	</trail>
+	<trail>
 		<name>Grandmas Trail</name>
 		<city>Wells</city>
 		<state>MN</state>
@@ -232,6 +244,18 @@
 		</morc>
 	</trail>
 	<trail>
+		<name>Whitetail Ridge</name>
+		<city>River Falls</city>
+		<state>WI</state>
+		<location>38.91;-104.77</location>
+		<specificLocation>true</specificLocation>
+		<morc>
+			<trailInfo></trailInfo>
+			<compose>465408</compose>
+			<allReports>42552</allReports>
+		</morc>
+	</trail>
+	<trail>
 		<name>Jail Trail</name>
 		<city>St. Clound</city>
 		<state>MN</state>
@@ -253,18 +277,6 @@
 			<trailInfo>Milaca</trailInfo>
 			<compose>390227</compose>
 			<allReports>18599</allReports>
-		</morc>
-	</trail>
-	<trail>
-		<name>Cuyuna Lakes</name>
-		<city>Crosby</city>
-		<state>MN</state>
-		<location>46.4841,-93.9931</location>
-		<specificLocation>true</specificLocation>
-		<morc>
-			<trailInfo>Cuyuna_Trail</trailInfo>
-			<compose>429452</compose>
-			<allReports>31735</allReports>
 		</morc>
 	</trail>
 	<trail>
