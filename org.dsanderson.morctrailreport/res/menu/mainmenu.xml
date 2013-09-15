@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/refresh" android:title="Refresh" android:icon="@drawable/ic_menu_refresh" android:showAsAction="ifRoom"></item>
+    <item android:id="@+id/sortBy" android:title="Sort By..." android:icon="@drawable/ic_menu_sort_by_size" android:showAsAction="ifRoom">
+        <menu>
+            <item android:id="@+id/sortByDistance" android:title="Sort By Distance" android:checkable="true"/>
+            <item android:id="@+id/sortByDate" android:title="Sort By Date" android:checkable="true"/>
+            <item android:id="@+id/sortByDuration" android:title="Sort By Drive Time" android:checkable="true"/>
+            <item android:id="@+id/sortByCondition" android:title="Sort By Condition" android:checkable="true"/>
+        </menu>
+    </item>
+    <item android:id="@+id/aboutMenuItem" android:title="About" android:icon="@drawable/ic_menu_info_details" android:showAsAction="ifRoom"></item>
+    <item android:id="@+id/preferencesMenuItem" android:title="Preferences" android:icon="@drawable/ic_menu_preferences" android:showAsAction="ifRoom"></item>
+</menu>

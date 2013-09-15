@@ -15,21 +15,24 @@ import org.dsanderson.android.util.AndroidProgressBar;
 import org.dsanderson.android.util.Dialog;
 import org.dsanderson.android.util.Maps;
 
-import android.app.ActionBar;
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
 import android.app.AlertDialog;
-import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class morcTrailReportActivity extends ListActivity {
+public class morcTrailReportActivity extends SherlockListActivity {
 
 	private TrailReportList trailReports;
 	private TrailReportFactory factory = new TrailReportFactory(this);
@@ -54,15 +57,82 @@ public class morcTrailReportActivity extends ListActivity {
 
 		refresh(false);
 	}
-
+	
 	@Override
-	protected void onStart() {
-		super.onStart();
-		int versionNumber = Integer.valueOf(android.os.Build.VERSION.SDK_INT);
-		if (versionNumber >= Build.VERSION_CODES.HONEYCOMB) {
-			ActionBar actionBar = this.getActionBar();
-			actionBar.setDisplayHomeAsUpEnabled(true);
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getSherlock().getMenuInflater();
+		inflater.inflate(R.menu.mainmenu, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.preferencesMenuItem: {
+			openPreferencesMenu();
 		}
+			break;
+		case R.id.refresh:
+			refresh(true);
+			break;
+		case R.id.aboutMenuItem: {
+			openAbout();
+		}
+			break;
+		case R.id.sortBy:
+			MenuItem distance = item.getSubMenu().getItem(0).setChecked(false);
+			MenuItem date = item.getSubMenu().getItem(1).setChecked(false);
+			MenuItem duration = item.getSubMenu().getItem(2).setChecked(false);
+			MenuItem condition = item.getSubMenu().getItem(3).setChecked(false);
+
+			switch (factory.userSettings.getSortMethod()) {
+			case SORT_BY_DISTANCE:
+				distance.setChecked(true);
+				break;
+			case SORT_BY_DATE:
+				date.setChecked(true);
+				break;
+			case SORT_BY_DURATION:
+				duration.setChecked(true);
+				break;
+			case SORT_BY_CONDITION:
+				condition.setChecked(true);
+			default:
+				break;
+			}
+			break;
+		case R.id.sortByDuration:
+		case R.id.sortByDate:
+		case R.id.sortByDistance:
+		case R.id.sortByCondition:
+
+			String sortMethodString = "";
+
+			switch (item.getItemId()) {
+			case R.id.sortByDuration:
+				sortMethodString = "sortByDuration";
+				break;
+			case R.id.sortByDate:
+				sortMethodString = "sortByDate";
+				break;
+			case R.id.sortByDistance:
+				sortMethodString = "sortByDistance";
+				break;
+			case R.id.sortByCondition:
+				sortMethodString = "sortByCondition";
+				break;
+			}
+
+			Editor edit = PreferenceManager.getDefaultSharedPreferences(
+					getApplication()).edit();
+			edit.putString("sortMethod", sortMethodString);
+			edit.commit();
+			break;
+		default:
+			Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
+			break;
+		}
+		return true;
 	}
 
 	// / Launch Preference activity

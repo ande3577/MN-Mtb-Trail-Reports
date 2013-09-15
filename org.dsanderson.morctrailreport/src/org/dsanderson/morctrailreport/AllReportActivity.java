@@ -24,13 +24,16 @@ import org.dsanderson.android.util.Dialog;
 import org.dsanderson.android.util.EmbeddedProgressBar;
 import org.dsanderson.android.util.Maps;
 
-import android.app.ActionBar;
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.view.View;
@@ -39,7 +42,7 @@ import android.widget.CursorAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class AllReportActivity extends ListActivity {
+public class AllReportActivity extends SherlockListActivity {
 
 	private static final String databaseName = "all_reports_database";
 
@@ -51,16 +54,6 @@ public class AllReportActivity extends ListActivity {
 	boolean redraw = true;
 	private AllTrailReportAdapter adapter;
 	private View footerView = null;
-
-	@Override
-	protected void onStart() {
-		super.onStart();
-		int versionNumber = Integer.valueOf(android.os.Build.VERSION.SDK_INT);
-		if (versionNumber >= Build.VERSION_CODES.HONEYCOMB) {
-			ActionBar actionBar = this.getActionBar();
-			actionBar.setDisplayHomeAsUpEnabled(true);
-		}
-	}
 
 	/** Called when the activity is first created. */
 	@Override
@@ -99,7 +92,7 @@ public class AllReportActivity extends ListActivity {
 		getListView().addFooterView(footerView);
 
 		redraw = true;
-		refresh(false, 1);
+		refresh(false);
 	}
 
 	@Override
@@ -128,6 +121,33 @@ public class AllReportActivity extends ListActivity {
 		trailReports.close();
 		super.onDestroy();
 	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getSherlock().getMenuInflater();
+		inflater.inflate(R.menu.allreportsmenu, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.allReportsRefreshMenuItem:
+			refresh(true);
+			break;
+		case R.id.allReportsBrowserMenuItem:
+			openInBrowser();
+			break;
+		case R.id.allReportsHelpMenuItem:
+			openAbout();
+			break;
+		}
+		return true;
+	}
+	
+	private void refresh(boolean forced) {
+		refresh(forced, 1);
+	}
 
 	private void refresh(boolean forced, int page) {
 		factory.getUserSettings().setForcedRefresh(forced);
@@ -155,12 +175,12 @@ public class AllReportActivity extends ListActivity {
 
 	private class AllTrailReportPrinter implements IPrinter {
 
-		private final ListActivity context;
+		private final SherlockListActivity context;
 		private final IAbstractFactory factory;
 		private final TrailReportList trailReports;
 		private final IAbstractListEntryFactory listEntryFactory;
 
-		public AllTrailReportPrinter(ListActivity context,
+		public AllTrailReportPrinter(SherlockListActivity context,
 				IAbstractFactory factory, TrailReportList trailReports,
 				String appName, IAbstractListEntryFactory listEntryFactory) {
 			this.context = context;
@@ -173,21 +193,19 @@ public class AllReportActivity extends ListActivity {
 
 		public void printTrailReports() throws Exception {
 			Date lastRefreshDate = trailReports.getTimestamp();
-			String titleString = appName;
-
 			TrailInfo info = getTrailInfo();
 
 			if (info == null)
 				throw new Exception("Cannot get trail info.");
 
-			titleString = info.getName();
-
+			String dateString = "";
 			if (lastRefreshDate != null && lastRefreshDate.getTime() != 0) {
 				Time time = new Time();
 				time.set(lastRefreshDate.getTime());
-				titleString += time.format(" (%b %e, %r)");
+				dateString += time.format("%b %e, %r");
 			}
-			context.setTitle(titleString);
+			context.setTitle(info.getName());
+			context.getSupportActionBar().setSubtitle(dateString);
 
 			Cursor cursor = ((TrailReportList) trailReports).getCursor();
 			if (redraw || (adapter == null)) {
@@ -378,7 +396,7 @@ public class AllReportActivity extends ListActivity {
 		}
 	}
 	
-	public void onOpenInBrowserClick(View v) {
+	public void openInBrowser() {
 		MorcSpecificTrailInfo morcInfo = getMorcTrailInfo();
 
 		if (morcInfo != null) {
@@ -387,14 +405,5 @@ public class AllReportActivity extends ListActivity {
 				AndroidIntent.launchIntent(allReportUrl, this);
 		}
 	}
-	
-	public void onRefreshButtonClick(View v) {
-		refresh(true, 1);
-	}
-	
-	public void onHelpButtonClick(View v) {
-		openAbout();
-	}
-
 	
 }
