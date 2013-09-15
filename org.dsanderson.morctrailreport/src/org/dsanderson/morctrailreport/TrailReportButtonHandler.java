@@ -100,13 +100,9 @@ public class TrailReportButtonHandler {
 	}
 	
 	private TrailInfo infoFromButton(View view) {
-		ViewGroup linearLayout = (ViewGroup) view.getParent();
-		ViewGroup tableRow = (ViewGroup) linearLayout.getParent();
-		ViewGroup table = (ViewGroup) tableRow.getParent();
-		ViewGroup parentView = (ViewGroup) table.getParent();
+		ViewGroup relativeLayout = (ViewGroup) view.getParent();
 		
-		String trailName = ((TextView) parentView
-				.findViewById(R.id.trailNameView)).getText().toString();
+		String trailName = ((TextView) relativeLayout.findViewById(R.id.trailNameView)).getText().toString();
 		return trailReports.find(trailName).getTrailInfo();
 	}
 	
