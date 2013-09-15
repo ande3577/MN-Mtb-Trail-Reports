@@ -4,15 +4,12 @@ import org.dsanderson.morctrailreport.decorators.AllReportsButtonDecorator;
 import org.dsanderson.xctrailreport.core.IDecoratorFactory;
 import org.dsanderson.xctrailreport.decorators.AuthorDecorator;
 import org.dsanderson.xctrailreport.decorators.CityStateDecorator;
-import org.dsanderson.xctrailreport.decorators.ComposeButtonDecorator;
 import org.dsanderson.xctrailreport.decorators.ConditionsImageDecorator;
 import org.dsanderson.xctrailreport.decorators.DateDecorator;
 import org.dsanderson.xctrailreport.decorators.DetailedReportDecorator;
 import org.dsanderson.xctrailreport.decorators.DistanceDecorator;
-import org.dsanderson.xctrailreport.decorators.MapButtonDecorator;
 import org.dsanderson.xctrailreport.decorators.SummaryDecorator;
 import org.dsanderson.xctrailreport.decorators.TimeDecorator;
-import org.dsanderson.xctrailreport.decorators.TrailInfoButtonDecorator;
 import org.dsanderson.xctrailreport.decorators.TrailNameDecorator;
 import org.dsanderson.xctrailreport.decorators.TrailReportDecorator;
 
@@ -44,9 +41,6 @@ public class ReportDecoratorFactory implements IDecoratorFactory {
 			infoDecorator.add(new CityStateDecorator());
 			infoDecorator.add(new DistanceDecorator());
 			infoDecorator.add(new AllReportsButtonDecorator());
-			infoDecorator.add(new MapButtonDecorator());
-			infoDecorator.add(new ComposeButtonDecorator());
-			infoDecorator.add(new TrailInfoButtonDecorator());
 		}
 
 		return infoDecorator;

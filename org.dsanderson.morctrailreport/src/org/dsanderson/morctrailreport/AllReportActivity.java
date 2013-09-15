@@ -29,7 +29,6 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -54,6 +53,7 @@ public class AllReportActivity extends SherlockListActivity {
 	boolean redraw = true;
 	private AllTrailReportAdapter adapter;
 	private View footerView = null;
+	private TrailReportButtonHandler buttonHandler = null;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -90,6 +90,8 @@ public class AllReportActivity extends SherlockListActivity {
 
 		footerView = getLayoutInflater().inflate(R.layout.footer_view, null);
 		getListView().addFooterView(footerView);
+		
+		buttonHandler = new TrailReportButtonHandler(this, trailReports);
 
 		redraw = true;
 		refresh(false);
@@ -139,7 +141,7 @@ public class AllReportActivity extends SherlockListActivity {
 			openInBrowser();
 			break;
 		case R.id.allReportsHelpMenuItem:
-			openAbout();
+			buttonHandler.openAbout();
 			break;
 		}
 		return true;
@@ -343,59 +345,13 @@ public class AllReportActivity extends SherlockListActivity {
 	}
 
 	// / Launch about menu activity
-	private void openAbout() {
-		Intent i = new Intent(this, AboutActivity.class);
-		startActivity(i);
+	public void onAllReportsButtonClicked(View view) {
 	}
 
-	private TrailInfo infoFromButton(View view) {
-		ViewGroup linearLayout = (ViewGroup) view.getParent();
-		ViewGroup tableRow = (ViewGroup) linearLayout.getParent();
-		ViewGroup table = (ViewGroup) tableRow.getParent();
-		ViewGroup parentView = (ViewGroup) table.getParent();
-		
-		String trailName = ((TextView) parentView
-				.findViewById(R.id.trailNameView)).getText().toString();
-		return trailReports.find(trailName).getTrailInfo();
-	}
-	
-	public void onAllReportsButtonClick(View view) {
+	public void onMoreButtonClicked(View view) {
+		buttonHandler.onMoreButtonClicked(view);
 	}
 
-	public void onMapButtonClick(View view) {
-		TrailInfo info = infoFromButton(view);
-		if (info == null)
-			return;
-		Maps.launchMap(info.getLocation(), info.getName(),
-				info.getSpecificLocation(), this);
-	}
-
-	public void onComposeButtonClick(View view) {
-		TrailInfo info = infoFromButton(view);
-		if (info == null)
-			return;
-		ISourceSpecificTrailInfo sourceSpecific = info
-				.getSourceSpecificInfo(MorcFactory.SOURCE_NAME);
-		if (sourceSpecific != null) {
-			String composeUrl = sourceSpecific.getComposeUrl();
-			if (composeUrl != null && composeUrl.length() > 0)
-				AndroidIntent.launchIntent(composeUrl, this);
-		}
-	}
-
-	public void onInfoButtonClick(View view) {
-		TrailInfo info = infoFromButton(view);
-		if (info == null)
-			return;
-		ISourceSpecificTrailInfo sourceSpecific = info
-				.getSourceSpecificInfo(MorcFactory.SOURCE_NAME);
-		if (sourceSpecific != null) {
-			String trailInfoUrl = sourceSpecific.getTrailInfoUrl();
-			if (trailInfoUrl != null && trailInfoUrl.length() > 0)
-				AndroidIntent.launchIntent(trailInfoUrl, this);
-		}
-	}
-	
 	public void openInBrowser() {
 		MorcSpecificTrailInfo morcInfo = getMorcTrailInfo();
 
